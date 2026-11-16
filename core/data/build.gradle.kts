@@ -1,12 +1,27 @@
+import java.util.Properties
+import kotlin.apply
+
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "com.fajar.cineverse.core.data"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
+        }
+    }
+
+    fun getLocalProperties(): Properties {
+        return Properties().apply {
+            val localPropertiesFile = rootProject.file("local.properties")
+            if(localPropertiesFile.exists()){
+                this.load(localPropertiesFile.inputStream())
+            }
         }
     }
 
@@ -14,19 +29,41 @@ android {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = getLocalProperties()
+        val apiAccessToken = localProperties.getProperty("API_ACCESS_TOKEN", "")
+
+        buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/movie/\"")
+        buildConfigField("String", "BASE_IMAGE_URL", "\"https://image.tmdb.org/t/p/original/\"")
+        buildConfigField("String", "API_ACCESS_TOKEN", "\"$apiAccessToken\"")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
+    implementation(project(":core:domain"))
+    implementation(project(":core:common"))
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.kotlinx.coroutine.test)
+    testImplementation(libs.kotlin.test)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.androidx.annotation.experimental)
+
+    // DI (Dagger Hilt)
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
 }

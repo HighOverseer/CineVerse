@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.fajar.cineverse"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
@@ -38,6 +38,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:data"))
+    implementation(project(":core:ui"))
+    implementation(project(":movie-discovery:presentation"))
+    implementation(project(":movie-detail:presentation"))
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

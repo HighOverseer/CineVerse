@@ -12,7 +12,7 @@ kotlin {
     android {
         namespace = "com.fajar.cineverse.core.domain"
         compileSdk {
-            version = release(36) {
+            version = release(37) {
                 minorApiLevel = 1
             }
         }
@@ -65,6 +65,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 
