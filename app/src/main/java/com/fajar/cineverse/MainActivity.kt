@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.fajar.cineverse.core.ui.theme.CineVerseAppTheme
+import com.fajar.cineverse.core.ui.utils.navigateSafely
+import com.fajar.cineverse.movie_detail.presentation.navigation.MovieDetailNavigation
+import com.fajar.cineverse.movie_detail.presentation.navigation.movieDetailNavGraph
 import com.fajar.cineverse.movie_discovery.presentation.navigation.MovieDiscoveryNavigation
 import com.fajar.cineverse.movie_discovery.presentation.navigation.movieDiscoveryNavGraph
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +26,17 @@ class MainActivity : ComponentActivity() {
                 ) {
                     movieDiscoveryNavGraph(
                         navController = navController,
-                        openMovieDetail = { },
+                        openMovieDetail = { selectedMovieId: Long ->
+                            navController.navigateSafely(
+                                MovieDetailNavigation.Graph(
+                                    movieId = selectedMovieId
+                                )
+                            )
+                        },
+                    )
+
+                    movieDetailNavGraph(
+                        navController = navController
                     )
                 }
             }

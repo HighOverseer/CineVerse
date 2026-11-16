@@ -30,24 +30,26 @@ internal class ListMoviePreviewsViewModel @AssistedInject constructor(
         get() = selectedGenre.name
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    val pagingItemsOfMoviePreviews = Pager(
-        config = PagingConfig(
-            pageSize = PAGE_SIZE,
-            initialLoadSize = INITIAL_LOAD_SIZE,
-            prefetchDistance = PREFETCH_DISTANCE,
-            enablePlaceholders = false
-        ),
-        pagingSourceFactory = {
-            MoviePreviewsPagingSource(
-                genre = selectedGenre,
-                repository = repository,
-                defaultErrorMapper = defaultErrorMapper,
-                dispatcherProvider = dispatcherProvider
-            )
-        }
-    ).flow
-        .flowOn(dispatcherProvider.default)
-        .cachedIn(viewModelScope)
+    val pagingItemsOfMoviePreviews by lazy {
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                initialLoadSize = INITIAL_LOAD_SIZE,
+                prefetchDistance = PREFETCH_DISTANCE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                MoviePreviewsPagingSource(
+                    genre = selectedGenre,
+                    repository = repository,
+                    defaultErrorMapper = defaultErrorMapper,
+                    dispatcherProvider = dispatcherProvider
+                )
+            }
+        ).flow
+            .flowOn(dispatcherProvider.default)
+            .cachedIn(viewModelScope)
+    }
 
     companion object {
         private const val PAGE_SIZE = 10

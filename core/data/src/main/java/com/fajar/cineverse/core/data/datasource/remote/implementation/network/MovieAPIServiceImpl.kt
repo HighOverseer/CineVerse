@@ -15,7 +15,7 @@ internal class MovieAPIServiceImpl @Inject constructor(
 ) : MovieAPIService, DefaultAPIServiceScope() {
 
     override suspend fun getAllMovieGenres(): GetAllMovieGenresDTO {
-        return httpClient.get(ENDPOINTS.GET_ALL_MOVIE_GENRES.endpointPath)
+        return httpClient.get(ENDPOINTS.GetAllMovieGenres.endpointPath)
             .getBodyIfNotSuccessThrowHttpException()
     }
 
@@ -23,7 +23,7 @@ internal class MovieAPIServiceImpl @Inject constructor(
         genreId: Long,
         page: Int
     ): GetListMoviePreviewsResponseDTO {
-        return httpClient.get(ENDPOINTS.GET_DISCOVERED_MOVIE_PREVIEWS.endpointPath) {
+        return httpClient.get(ENDPOINTS.GetDiscoveredMoviePreviews.endpointPath) {
             url {
                 parameters.apply {
                     append(QueryParamKey.WithGenre.key, genreId.toString())
@@ -34,8 +34,9 @@ internal class MovieAPIServiceImpl @Inject constructor(
     }
 
     override suspend fun getSelectedMovieDetail(movieId: Long): GetMovieDetailResponseDTO {
-        return httpClient.get(movieId.toString())
-            .getBodyIfNotSuccessThrowHttpException()
+        return httpClient.get(
+            ENDPOINTS.GetMovieDetail(movieId = movieId).endpointPath
+        ).getBodyIfNotSuccessThrowHttpException()
     }
 
     override suspend fun getSelectedMovieReview(
@@ -44,16 +45,43 @@ internal class MovieAPIServiceImpl @Inject constructor(
     ): GetMovieReviewsResponseDTO {
         return httpClient.get {
             url {
-                appendPathSegments(movieId.toString(), ENDPOINTS.GET_MOVIE_REVIEWS.endpointPath)
+                appendPathSegments(
+                    *ENDPOINTS
+                        .GetMovieReviews(movieId = movieId)
+                        .convertEndpointsToPathComponents()
+                        .toTypedArray()
+                )
                 parameters.append(QueryParamKey.Page.key, page.toString())
             }
         }.getBodyIfNotSuccessThrowHttpException()
     }
 
-    private enum class ENDPOINTS(val endpointPath: String) {
-        GET_ALL_MOVIE_GENRES("genre/movie/list"),
-        GET_DISCOVERED_MOVIE_PREVIEWS("discover/movie"),
-        GET_MOVIE_REVIEWS("reviews")
+    private sealed interface ENDPOINTS {
+        val endpointPath: String
+
+        data object GetAllMovieGenres : ENDPOINTS {
+            override val endpointPath: String
+                get() = "genre/movie/list"
+        }
+
+        data object GetDiscoveredMoviePreviews : ENDPOINTS {
+            override val endpointPath: String
+                get() = "discover/movie"
+        }
+
+        data class GetMovieDetail(val movieId: Long) : ENDPOINTS {
+            override val endpointPath: String
+                get() = "movie/${movieId}"
+        }
+
+        data class GetMovieReviews(val movieId: Long) : ENDPOINTS {
+            override val endpointPath: String
+                get() = "movie/${movieId}/reviews"
+        }
+
+        fun convertEndpointsToPathComponents(): List<String> {
+            return endpointPath.split("/")
+        }
     }
 
     private enum class QueryParamKey(val key: String) {

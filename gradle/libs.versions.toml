@@ -26,6 +26,7 @@ hilt_navigation = "1.4.0"
 ksp = "2.3.10"
 androidx-annotation-experimental = "1.5.1"
 paging = "3.3.0"
+youtubeplayer_core = "13.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +76,9 @@ kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immuta
 # Paging3
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+
+# youtube player
+youtubeplayer-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubeplayer_core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,7 +1,6 @@
 package com.fajar.cineverse.core.ui.components
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,10 +12,11 @@ import com.fajar.cineverse.core.ui.theme.Green60
 import com.fajar.cineverse.core.ui.theme.Orange90
 
 @Composable
-fun CurrentlyLoadingSection() {
+fun CurrentlyLoadingSection(
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {

@@ -1,5 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -20,13 +24,45 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    buildFeatures {
+        compose = true
+    }
+
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
+    implementation(project(":core:domain"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:common"))
+
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutine.test)
+    testImplementation(libs.kotlin.test)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+
+    // Pagination
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
+
+    // DI (Dagger Hilt)
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // Immutable Collection
+    implementation(libs.kotlinx.immutable)
+
+    // Youtube Player
+    implementation(libs.youtubeplayer.core)
 }

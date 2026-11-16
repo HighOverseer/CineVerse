@@ -1,9 +1,8 @@
-package com.fajar.cineverse.movie_discovery.presentation.contents
+package com.fajar.cineverse.core.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -15,17 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.fajar.cineverse.core.ui.components.PrimaryButton
 import com.fajar.cineverse.core.ui.R as CoreR
 
 @Composable
-internal fun RetryLoadingSection(
+fun RetryLoadingSection(
     modifier: Modifier = Modifier,
     errorMessage: String = "",
     onRetry: () -> Unit = { },
 ) {
     Column(
-        modifier.fillMaxWidth(),
+        modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

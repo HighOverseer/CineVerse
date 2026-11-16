@@ -2,6 +2,7 @@ package com.fajar.cineverse.movie_discovery.presentation.contents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -15,6 +16,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import com.fajar.cineverse.core.domain.model.MoviePreviewsItemData
 import com.fajar.cineverse.core.ui.components.CurrentlyLoadingSection
+import com.fajar.cineverse.core.ui.components.RetryLoadingSection
 import com.fajar.cineverse.core.ui.utils.appendErrorMessage
 import com.fajar.cineverse.core.ui.utils.isAppendLoadError
 import com.fajar.cineverse.core.ui.utils.isAppending
@@ -62,11 +64,14 @@ internal fun ListMoviePreviewsSection(
 
             if (pagingItems.isAppending)
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    CurrentlyLoadingSection()
+                    CurrentlyLoadingSection(
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             else if (pagingItems.isAppendLoadError)
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     RetryLoadingSection(
+                        modifier = Modifier.fillMaxWidth(),
                         errorMessage = pagingItems.appendErrorMessage
                             ?: stringResource(CoreR.string.an_error_occurred_please_try_again),
                         onRetry = pagingItems::retry

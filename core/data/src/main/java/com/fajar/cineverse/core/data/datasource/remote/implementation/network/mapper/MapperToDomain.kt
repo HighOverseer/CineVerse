@@ -80,6 +80,7 @@ internal class MapperToDomain(
             }
 
             MovieReviewData(
+                id = id ?: return null,
                 comment = content ?: return null,
                 postedTimestamp = postedTimestamp ?: return null,
                 reviewerUsername = authorDetails?.username ?: return null

@@ -2,6 +2,6 @@
 <resources>
     <string name="choose_a_movie_genre">Choose a Movie Genre</string>
     <string name="no_movie_genre_msg">Sorry no movie genre available at this moment..</string>
-    <string name="discover_movies">Discover %1$s Movies</string>
+    <string name="discover_movies">%1$s Movies Discovery</string>
     <string name="search_anything">Search anything..</string>
 </resources>
