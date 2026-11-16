@@ -8,6 +8,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.fajar.cineverse.core.domain.model.MovieGenre
 import com.fajar.cineverse.core.ui.utils.navigateSafely
+import com.fajar.cineverse.core.ui.utils.navigateUpSafely
 import com.fajar.cineverse.movie_discovery.presentation.ListMovieGenresScreen
 import com.fajar.cineverse.movie_discovery.presentation.ListMoviePreviewsScreen
 import com.fajar.cineverse.movie_discovery.presentation.view_model.ListMoviePreviewsViewModel
@@ -47,7 +48,8 @@ fun NavGraphBuilder.movieDiscoveryNavGraph(
 
             ListMoviePreviewsScreen(
                 viewModel = viewModel,
-                onNavigateToDetail = { openMovieDetail(it.id) }
+                onNavigateToDetail = { openMovieDetail(it.id) },
+                onNavigateUp = navController::navigateUpSafely
             )
         }
     }

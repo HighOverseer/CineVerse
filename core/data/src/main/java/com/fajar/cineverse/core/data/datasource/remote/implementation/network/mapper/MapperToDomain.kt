@@ -1,5 +1,6 @@
 package com.fajar.cineverse.core.data.datasource.remote.implementation.network.mapper
 
+import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetAssociatedMovieVideosDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetMovieDetailResponseDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetMovieReviewsResponseItemDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.MovieGenreItemDTO
@@ -48,11 +49,18 @@ internal class MapperToDomain(
     }
 
     fun mapMovieDetailDTOToDomain(
-        dto: GetMovieDetailResponseDTO,
+        getMovieDetailResponseDTO: GetMovieDetailResponseDTO,
+        getAssociatedMovieVideoDTO: GetAssociatedMovieVideosDTO
     ): MovieDetailData? {
-        dto.run {
+        getMovieDetailResponseDTO.run {
             val imageUrl = imageUrlResolver.resolve(backdropPath)
                 ?: return null
+
+            val youtubeSiteKey = "youtube"
+            val associatedYTVideoKey = getAssociatedMovieVideoDTO
+                .results
+                ?.firstOrNull { it.site?.lowercase() == youtubeSiteKey }
+                ?.key
 
             return MovieDetailData(
                 id = id?.toLong() ?: return null,
@@ -66,6 +74,7 @@ internal class MapperToDomain(
                     )
                 },
                 overview = overview ?: "-",
+                associatedYTVideoKey = associatedYTVideoKey,
             )
         }
     }

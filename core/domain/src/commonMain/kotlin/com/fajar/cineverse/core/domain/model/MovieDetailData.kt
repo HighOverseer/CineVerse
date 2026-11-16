@@ -6,4 +6,5 @@ data class MovieDetailData(
     val imageUrl: String,
     val overview: String,
     val rating: Rating?,
+    val associatedYTVideoKey: String?
 )

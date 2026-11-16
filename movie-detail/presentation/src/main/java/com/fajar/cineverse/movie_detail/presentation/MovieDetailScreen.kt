@@ -60,6 +60,8 @@ import com.fajar.cineverse.core.ui.utils.rememberDummyPagingItems
 import com.fajar.cineverse.movie_detail.presentation.components.MovieRatingSection
 import com.fajar.cineverse.movie_detail.presentation.components.MovieReviewItemCard
 import com.fajar.cineverse.movie_detail.presentation.components.ShimmeringMovieReviewItemCard
+import com.fajar.cineverse.movie_detail.presentation.components.YoutubeVideoPlayer
+import com.fajar.cineverse.movie_detail.presentation.components.rememberYoutubePlayerView
 import com.fajar.cineverse.movie_detail.presentation.content.ShimmeringMovieDetailContent
 import com.fajar.cineverse.movie_detail.presentation.model.MovieReviewDUI
 import kotlinx.coroutines.launch
@@ -111,6 +113,10 @@ private fun MovieDetailScreen(
         )
     }
 
+    val videoPlayerView = movieDetail?.associatedYTVideoKey?.let {
+        rememberYoutubePlayerView(it)
+    }
+
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
             state = lazyListState,
@@ -135,6 +141,15 @@ private fun MovieDetailScreen(
                             tint = Black10
                         )
                     }
+
+                    Spacer(Modifier.width(16.dp))
+
+                    Text(
+                        stringResource(R.string.movie_detail),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Black10,
+                        fontSize = 18.sp
+                    )
                 }
 
                 Spacer(Modifier.height(16.dp))
@@ -167,35 +182,50 @@ private fun MovieDetailScreen(
                     .padding(start = 16.dp, end = 16.dp)
 
                 item {
-                    Column(modifier = commonComponentModifier) {
-                        Text(
-                            movieDetail.title,
-                            style = MaterialTheme.typography.titleLarge,
-                            color = Black10,
-                            fontSize = 24.sp,
-                            lineHeight = 24.sp
+                    Text(
+                        modifier = commonComponentModifier,
+                        text = movieDetail.title,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Black10,
+                        fontSize = 24.sp,
+                        lineHeight = 24.sp
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+                }
+                item {
+                    movieDetail.rating?.let { rating ->
+                        MovieRatingSection(
+                            modifier = commonComponentModifier,
+                            relativeScore = rating.normalizedRelativeScore,
+                            maxScore = rating.maxScore,
+                            displayRating = rating.normalizedRelativeScore.formatDecimalPlaces()
                         )
+                    }
 
-                        Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(16.dp))
+                }
 
-                        movieDetail.rating?.let { rating ->
-                            MovieRatingSection(
-                                relativeScore = rating.normalizedRelativeScore,
-                                maxScore = rating.maxScore,
-                                displayRating = rating.normalizedRelativeScore.formatDecimalPlaces()
-                            )
-                        }
+                item {
+                    Text(
+                        modifier = commonComponentModifier,
+                        textAlign = TextAlign.Justify,
+                        text = movieDetail.overview,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Black50
+                    )
+
+                    Spacer(Modifier.height(24.dp))
+                }
+
+                videoPlayerView?.let {
+                    item {
+                        YoutubeVideoPlayer(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            playerView = it
+                        )
 
                         Spacer(Modifier.height(16.dp))
-
-                        Text(
-                            textAlign = TextAlign.Justify,
-                            text = movieDetail.overview,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Black50
-                        )
-
-                        Spacer(Modifier.height(24.dp))
                     }
                 }
 
@@ -320,6 +350,7 @@ private fun MovieDetailScreenPreview() {
                     overview = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum  Lorem ipsum Lorem ipsum",
                     rating = Rating(8.5, 10.0, null),
                     imageUrl = "image.com",
+                    associatedYTVideoKey = null
                 )
             )
         )

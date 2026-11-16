@@ -2,4 +2,5 @@
 <resources>
     <string name="movie_backdrop_image">Movie Backdrop Image</string>
     <string name="reviews">Reviews</string>
+    <string name="movie_detail">Movie Detail</string>
 </resources>

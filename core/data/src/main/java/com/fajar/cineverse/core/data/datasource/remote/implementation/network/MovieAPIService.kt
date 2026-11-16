@@ -1,6 +1,7 @@
 package com.fajar.cineverse.core.data.datasource.remote.implementation.network
 
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetAllMovieGenresDTO
+import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetAssociatedMovieVideosDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetListMoviePreviewsResponseDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetMovieDetailResponseDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetMovieReviewsResponseDTO
@@ -18,4 +19,8 @@ internal interface MovieAPIService {
         movieId: Long,
         page: Int
     ): GetMovieReviewsResponseDTO
+
+    suspend fun getAssociatedMovieVideos(
+        movieId: Long
+    ): GetAssociatedMovieVideosDTO
 }

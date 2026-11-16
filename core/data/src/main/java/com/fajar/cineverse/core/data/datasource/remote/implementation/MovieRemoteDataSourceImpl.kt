@@ -13,6 +13,7 @@ import com.fajar.cineverse.core.domain.model.MovieReviewData
 import com.fajar.cineverse.core.domain.model.Page
 import com.fajar.cineverse.core.domain.model.Result
 import com.fajar.cineverse.core.domain.model.RootNetworkError
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -72,10 +73,23 @@ internal class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getMovieDetail(selectedMovieId: Long): Result<MovieDetailData, DataError> {
         return withContext(dispatcherProvider.default) {
             callApiFromNetwork(
-                execute = { apiService.getSelectedMovieDetail(selectedMovieId) },
-                mapResponseToResultData = { responseData ->
+                execute = {
+                    val deferredGetMovieDetailResponseDTO = async {
+                        apiService.getSelectedMovieDetail(movieId = selectedMovieId)
+                    }
+                    val deferredGetAssociatedMovieVideoResponseDTO = async {
+                        apiService.getAssociatedMovieVideos(movieId = selectedMovieId)
+                    }
+
+                    Pair(
+                        first = deferredGetMovieDetailResponseDTO.await(),
+                        second = deferredGetAssociatedMovieVideoResponseDTO.await()
+                    )
+                },
+                mapResponseToResultData = { (getMovieDetailResponseDTO, getAssociatedMovieVideoResponseDTO) ->
                     mapperToDomain.mapMovieDetailDTOToDomain(
-                        dto = responseData,
+                        getMovieDetailResponseDTO = getMovieDetailResponseDTO,
+                        getAssociatedMovieVideoDTO = getAssociatedMovieVideoResponseDTO
                     ) ?: return@withContext Result.Error(RootNetworkError.UNEXPECTED_ERROR)
                 }
             )

@@ -131,8 +131,8 @@ private fun ListMovieGenresScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .height(24.dp)
+                                .padding(horizontal = 12.dp)
+                                .height(16.dp)
                                 .shimmeringEffect()
                         )
 

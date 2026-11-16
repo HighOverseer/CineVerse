@@ -2,6 +2,7 @@ package com.fajar.cineverse.core.data.datasource.remote.implementation.network
 
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.common.DefaultAPIServiceScope
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetAllMovieGenresDTO
+import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetAssociatedMovieVideosDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetListMoviePreviewsResponseDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetMovieDetailResponseDTO
 import com.fajar.cineverse.core.data.datasource.remote.implementation.network.dto.GetMovieReviewsResponseDTO
@@ -15,7 +16,7 @@ internal class MovieAPIServiceImpl @Inject constructor(
 ) : MovieAPIService, DefaultAPIServiceScope() {
 
     override suspend fun getAllMovieGenres(): GetAllMovieGenresDTO {
-        return httpClient.get(ENDPOINTS.GetAllMovieGenres.endpointPath)
+        return httpClient.get(Endpoints.GetAllMovieGenres.endpointPath)
             .getBodyIfNotSuccessThrowHttpException()
     }
 
@@ -23,7 +24,7 @@ internal class MovieAPIServiceImpl @Inject constructor(
         genreId: Long,
         page: Int
     ): GetListMoviePreviewsResponseDTO {
-        return httpClient.get(ENDPOINTS.GetDiscoveredMoviePreviews.endpointPath) {
+        return httpClient.get(Endpoints.GetDiscoveredMoviePreviews.endpointPath) {
             url {
                 parameters.apply {
                     append(QueryParamKey.WithGenre.key, genreId.toString())
@@ -35,7 +36,7 @@ internal class MovieAPIServiceImpl @Inject constructor(
 
     override suspend fun getSelectedMovieDetail(movieId: Long): GetMovieDetailResponseDTO {
         return httpClient.get(
-            ENDPOINTS.GetMovieDetail(movieId = movieId).endpointPath
+            Endpoints.GetMovieDetail(movieId = movieId).endpointPath
         ).getBodyIfNotSuccessThrowHttpException()
     }
 
@@ -46,7 +47,7 @@ internal class MovieAPIServiceImpl @Inject constructor(
         return httpClient.get {
             url {
                 appendPathSegments(
-                    *ENDPOINTS
+                    *Endpoints
                         .GetMovieReviews(movieId = movieId)
                         .convertEndpointsToPathComponents()
                         .toTypedArray()
@@ -56,27 +57,38 @@ internal class MovieAPIServiceImpl @Inject constructor(
         }.getBodyIfNotSuccessThrowHttpException()
     }
 
-    private sealed interface ENDPOINTS {
+    override suspend fun getAssociatedMovieVideos(movieId: Long): GetAssociatedMovieVideosDTO {
+        return httpClient.get(
+            Endpoints.GetMovieVideos(movieId = movieId).endpointPath
+        ).getBodyIfNotSuccessThrowHttpException()
+    }
+
+    private sealed interface Endpoints {
         val endpointPath: String
 
-        data object GetAllMovieGenres : ENDPOINTS {
+        data object GetAllMovieGenres : Endpoints {
             override val endpointPath: String
                 get() = "genre/movie/list"
         }
 
-        data object GetDiscoveredMoviePreviews : ENDPOINTS {
+        data object GetDiscoveredMoviePreviews : Endpoints {
             override val endpointPath: String
                 get() = "discover/movie"
         }
 
-        data class GetMovieDetail(val movieId: Long) : ENDPOINTS {
+        data class GetMovieDetail(val movieId: Long) : Endpoints {
             override val endpointPath: String
                 get() = "movie/${movieId}"
         }
 
-        data class GetMovieReviews(val movieId: Long) : ENDPOINTS {
+        data class GetMovieReviews(val movieId: Long) : Endpoints {
             override val endpointPath: String
                 get() = "movie/${movieId}/reviews"
+        }
+
+        data class GetMovieVideos(val movieId: Long) : Endpoints {
+            override val endpointPath: String
+                get() = "movie/$movieId/videos"
         }
 
         fun convertEndpointsToPathComponents(): List<String> {
