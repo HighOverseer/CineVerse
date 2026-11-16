@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="choose_a_movie_genre">Choose a Movie Genre</string>
+    <string name="no_movie_genre_msg">Sorry no movie genre available at this moment..</string>
+</resources>
