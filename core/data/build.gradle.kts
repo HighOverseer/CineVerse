@@ -33,7 +33,7 @@ android {
         val localProperties = getLocalProperties()
         val apiAccessToken = localProperties.getProperty("API_ACCESS_TOKEN", "")
 
-        buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/movie/\"")
+        buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
         buildConfigField("String", "BASE_IMAGE_URL", "\"https://image.tmdb.org/t/p/original/\"")
         buildConfigField("String", "API_ACCESS_TOKEN", "\"$apiAccessToken\"")
     }

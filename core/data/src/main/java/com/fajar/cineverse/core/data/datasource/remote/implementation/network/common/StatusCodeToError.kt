@@ -1,6 +1,7 @@
-package com.fajar.cineverse.core.data.network
+package com.fajar.cineverse.core.data.datasource.remote.implementation.network.common
 
 import com.fajar.cineverse.core.domain.model.DataError
+import com.fajar.cineverse.core.domain.model.Result
 import com.fajar.cineverse.core.domain.model.RootNetworkError
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -9,8 +10,6 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import java.net.UnknownHostException
-import kotlin.collections.get
-import com.fajar.cineverse.core.domain.model.Result
 
 internal val mapStatusCodeToError = hashMapOf<Int, DataError>(
     HttpStatusCode.BadRequest.value to RootNetworkError.BAD_REQUEST,

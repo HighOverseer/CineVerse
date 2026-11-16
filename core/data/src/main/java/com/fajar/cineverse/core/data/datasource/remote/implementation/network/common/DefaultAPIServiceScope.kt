@@ -1,4 +1,4 @@
-package com.fajar.cineverse.core.data.network
+package com.fajar.cineverse.core.data.datasource.remote.implementation.network.common
 
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse

@@ -1,4 +1,4 @@
-package com.fajar.cineverse.core.data.network
+package com.fajar.cineverse.core.data.datasource.remote.implementation.network.common
 
 
 import com.fajar.cineverse.core.data.BuildConfig
