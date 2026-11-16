@@ -66,4 +66,7 @@ dependencies {
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Splash Screen
+    implementation(libs.androidx.core.splashscreen)
 }
