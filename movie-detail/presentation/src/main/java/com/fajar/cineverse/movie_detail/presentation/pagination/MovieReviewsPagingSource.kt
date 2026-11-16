@@ -24,8 +24,8 @@ internal class MovieReviewsPagingSource(
     override fun getRefreshKey(state: PagingState<Int, MovieReviewDUI>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.let { page ->
-                page.prevKey?.plus(page.data.size)
-                    ?: page.nextKey?.minus(page.data.size)
+                page.prevKey?.plus(1)
+                    ?: page.nextKey?.minus(1)
             }
         }
     }

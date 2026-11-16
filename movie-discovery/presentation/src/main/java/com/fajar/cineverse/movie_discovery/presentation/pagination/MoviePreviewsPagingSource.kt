@@ -23,8 +23,8 @@ internal class MoviePreviewsPagingSource(
     override fun getRefreshKey(state: PagingState<Int, MoviePreviewsItemData>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.let { page ->
-                page.prevKey?.plus(page.data.size)
-                    ?: page.nextKey?.minus(page.data.size)
+                page.prevKey?.plus(1)
+                    ?: page.nextKey?.minus(1)
             }
         }
     }
@@ -69,6 +69,7 @@ internal class MoviePreviewsPagingSource(
                         val prevKey = if (page == START_PAGINATION_KEY) {
                             null
                         } else page.minus(1)
+                            .coerceAtLeast(START_PAGINATION_KEY)
 
                         val nextKey = if (isEndOfPagination) {
                             null
