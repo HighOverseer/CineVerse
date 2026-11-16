@@ -50,6 +50,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 
+    // Pagination
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
+
     // DI (Dagger Hilt)
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)

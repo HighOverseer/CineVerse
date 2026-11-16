@@ -42,13 +42,15 @@ import com.fajar.cineverse.core.ui.theme.CineVerseAppTheme
 import com.fajar.cineverse.core.ui.theme.Grey90
 import com.fajar.cineverse.core.ui.utils.shimmeringEffect
 import com.fajar.cineverse.movie_discovery.presentation.components.SliverItemCard
+import com.fajar.cineverse.movie_discovery.presentation.view_model.ListMovieGenresUIState
+import com.fajar.cineverse.movie_discovery.presentation.view_model.ListMovieGenresViewModel
 import kotlinx.collections.immutable.persistentListOf
 import com.fajar.cineverse.core.ui.R as CoreR
 
 @Composable
 internal fun ListMovieGenresScreen(
     viewModel: ListMovieGenresViewModel = hiltViewModel(),
-    onNavigateToListPreview: (Long) -> Unit = { }
+    onNavigateToListPreview: (MovieGenre) -> Unit = { }
 ) {
     LaunchedEffect(Unit) {
         viewModel.initializeIfNeeded()
@@ -70,7 +72,7 @@ internal fun ListMovieGenresScreen(
 private fun ListMovieGenresScreen(
     modifier: Modifier = Modifier,
     uiState: ListMovieGenresUIState = ListMovieGenresUIState(),
-    onNavigateToListPreview: (Long) -> Unit = { },
+    onNavigateToListPreview: (MovieGenre) -> Unit = { },
     onErrorMessageHandled: () -> Unit = { },
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -124,18 +126,20 @@ private fun ListMovieGenresScreen(
         ) {
             when {
                 uiState.isLoading -> {
-                    val placeholdersCount = 5
+                    val placeholdersCount = 10
                     items(placeholdersCount) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
                                 .height(24.dp)
                                 .shimmeringEffect()
                         )
 
                         if (it != placeholdersCount.minus(1)) {
-                            Spacer(Modifier.height(8.dp))
+                            Spacer(Modifier.height(12.dp))
                             HorizontalDivider()
+                            Spacer(Modifier.height(16.dp))
                         }
                     }
                 }
@@ -161,8 +165,8 @@ private fun ListMovieGenresScreen(
                             modifier = Modifier
                                 .padding(horizontal = 8.dp)
                                 .heightIn(min = 48.dp),
-                            text = currentMovieGenre.text,
-                            onClicked = { onNavigateToListPreview(currentMovieGenre.id) }
+                            text = currentMovieGenre.name,
+                            onClicked = { onNavigateToListPreview(currentMovieGenre) }
                         )
 
                         if (index != uiState.listOfMovieGenres.lastIndex) {

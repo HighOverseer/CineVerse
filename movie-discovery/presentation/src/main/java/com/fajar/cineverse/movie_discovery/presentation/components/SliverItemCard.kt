@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.fajar.cineverse.core.ui.theme.Black10
-import com.fajar.cineverse.core.ui.theme.Grey69
 import com.fajar.cineverse.core.ui.R as CoreR
 
 
@@ -39,7 +38,7 @@ internal fun SliverItemCard(
 
         Icon(
             imageVector = ImageVector.vectorResource(CoreR.drawable.ic_arrow_right),
-            tint = Grey69,
+            tint = Black10,
             contentDescription = null
         )
     }

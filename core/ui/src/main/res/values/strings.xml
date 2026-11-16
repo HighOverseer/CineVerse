@@ -9,4 +9,10 @@
     <string name="invalid_session_please_try_again">Your session is invalid. Please try again.</string>
     <string name="okay">Okay</string>
     <string name="error">Error</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="sorry_no_data_found">Sorry, no data found..</string>
+    <string name="please_pull_to_refresh_again">Please pull to refresh again..</string>
+    <string name="rate_star">Rate Star</string>
+    <string name="ratings">%1$s Ratings</string>
+    <string name="retry">Retry</string>
 </resources>

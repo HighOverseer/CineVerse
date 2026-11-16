@@ -8,4 +8,10 @@ sealed interface MovieDiscoveryNavigation {
 
     @Serializable
     data object ListMovieGenres
+
+    @Serializable
+    data class ListMoviePreviews(
+        val selectedGenreId: Long,
+        val selectedGenreName: String
+    )
 }

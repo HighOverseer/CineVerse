@@ -1,4 +1,4 @@
-package com.fajar.cineverse.movie_discovery.presentation
+package com.fajar.cineverse.movie_discovery.presentation.view_model
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel

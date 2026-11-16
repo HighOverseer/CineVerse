@@ -8,6 +8,9 @@ internal data class GetListMoviePreviewsResponseDTO(
     @SerialName("page")
     val page: Int? = null,
 
+    @SerialName("total_pages")
+    val totalPages: Int? = null,
+
     @SerialName("total_results")
     val totalResults: Int? = null,
 

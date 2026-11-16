@@ -51,4 +51,11 @@ dependencies {
     // DI (Dagger Hilt)
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)
+
+    // Pagination
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
+
+    // Immutable Colletion
+    implementation(libs.kotlinx.immutable)
 }

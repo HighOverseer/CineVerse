@@ -44,7 +44,7 @@ internal class MovieRemoteDataSourceImpl @Inject constructor(
             execute = {
                 apiService.getMoviePreviewsByGenre(
                     genreId = genre.id,
-                    page = page
+                    page = page,
                 )
             },
             mapResponseToResultData = { responseData ->
@@ -52,11 +52,12 @@ internal class MovieRemoteDataSourceImpl @Inject constructor(
                     ?.mapNotNull(mapperToDomain::mapMoviePreviewItemDTOToDomain)
                     ?: emptyList()
 
-                val validRequestablePage = responseData.page?.let { page ->
-                    page <= MAX_REQUESTABLE_PAGE
-                } ?: false
-
-                val hasNext = mappedListData.isNotEmpty() && validRequestablePage
+                val hasNext = mappedListData.isNotEmpty() &&
+                        responseData.page != null &&
+                        responseData.page < minOf(
+                    responseData.totalPages ?: 0,
+                    MAX_REQUESTABLE_PAGE
+                )
                 return@callApiFromNetwork Page(
                     pagedList = mappedListData,
                     hasNext = hasNext

@@ -15,7 +15,7 @@ internal class MapperToDomain(
         return dto.run {
             MovieGenre(
                 id = id?.toLong() ?: return null,
-                text = name ?: return null
+                name = name ?: return null
             )
         }
     }

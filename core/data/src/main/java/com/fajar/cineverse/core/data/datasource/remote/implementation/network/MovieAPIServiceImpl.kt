@@ -37,6 +37,6 @@ internal class MovieAPIServiceImpl @Inject constructor(
 
     private enum class QueryParamKey(val key: String) {
         WithGenre("with_genres"),
-        Page("page");
+        Page("page"),
     }
 }

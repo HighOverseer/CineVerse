@@ -3,7 +3,6 @@ package com.fajar.cineverse
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.fajar.cineverse.core.ui.theme.CineVerseAppTheme
@@ -23,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     startDestination = MovieDiscoveryNavigation.Graph
                 ) {
                     movieDiscoveryNavGraph(
-                        openMovieDetail = { }
+                        navController = navController,
+                        openMovieDetail = { },
                     )
                 }
             }
