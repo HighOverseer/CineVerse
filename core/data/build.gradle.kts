@@ -55,6 +55,8 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutine.test)
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
+    testImplementation(project(":core:test-utils"))
     implementation(libs.kotlin.stdlib)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)

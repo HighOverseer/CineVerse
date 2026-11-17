@@ -28,6 +28,10 @@ android {
         compose = true
     }
 
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
+
 }
 
 dependencies {
@@ -48,6 +52,8 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutine.test)
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
+    testImplementation(project(":core:test-utils"))
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 
